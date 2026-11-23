@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
@@ -21,8 +21,11 @@ export default function CreateEventPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Local date as YYYY-MM-DD, used as the earliest allowed date in the picker.
-  const today = new Date().toLocaleDateString("en-CA");
+const [today, setToday] = useState("");
+
+useEffect(() => {
+  setToday(new Date().toLocaleDateString("en-CA"));
+}, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
