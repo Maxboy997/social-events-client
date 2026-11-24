@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import Link from "next/link";
 
 type EventItem = {
@@ -18,7 +19,9 @@ async function getEvents(): Promise<EventItem[]> {
 }
 
 export default async function EventsPage() {
+  await connection();
   const events = await getEvents();
+
 
   return (
     <main className="mx-auto max-w-6xl p-6">
