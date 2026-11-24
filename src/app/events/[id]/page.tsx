@@ -21,7 +21,8 @@ async function getEvent(id: string): Promise<EventItem | null> {
   return res.json();
 }
 
-async function EventDetails({ id }: { id: string }) {
+async function EventDetails({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const event = await getEvent(id);
 
   if (!event) {
@@ -46,17 +47,15 @@ async function EventDetails({ id }: { id: string }) {
   );
 }
 
-export default async function EventPage({
+export default function EventPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
-
   return (
     <main className="mx-auto max-w-5xl p-6">
       <Suspense fallback={<p>Loading event...</p>}>
-        <EventDetails id={id} />
+        <EventDetails params={params} />
       </Suspense>
     </main>
   );
