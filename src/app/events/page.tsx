@@ -14,14 +14,18 @@ async function getEvents(): Promise<EventItem[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/events`, {
     cache: "no-store",
   });
-  if (!res.ok) return [];
+
+  if (!res.ok) {
+    console.error("Events fetch failed:", res.status);
+    return [];
+  }
+
   return res.json();
 }
 
 export default async function EventsPage() {
   await connection();
   const events = await getEvents();
-
 
   return (
     <main className="mx-auto max-w-6xl p-6">
